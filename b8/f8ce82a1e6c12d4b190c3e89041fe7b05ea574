@@ -1,0 +1,34 @@
+demo/src/main/java/projetohelpdesk/demo/service/TicketService.java
+  h_30b01a61a413b1 8-9,68-91
+demo/src/main/java/projetohelpdesk/demo/controller/TicketController.java
+  h_30b01a61a413b1 12-13,34-35,42-48
+demo/src/main/java/projetohelpdesk/demo/entity/Ticket.java
+  b5751bc0fdd129d5 40-41,44-45
+demo/src/main/java/projetohelpdesk/demo/dto/TicketDetailResponse.java
+  h_30b01a61a413b1 1-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "b8f8ce82a1e6c12d4b190c3e89041fe7b05ea574",
+  "prompts": {
+    "b5751bc0fdd129d5": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "95b962d9-27c7-4fce-bdc4-a3ad35c09c9d",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Cristian",
+      "messages": [],
+      "total_additions": 4,
+      "total_deletions": 4,
+      "accepted_lines": 4,
+      "overriden_lines": 0
+    }
+  },
+  "humans": {
+    "h_30b01a61a413b1": {
+      "author": "Cristian"
+    }
+  }
+}
