@@ -37,12 +37,12 @@ public class Ticket {
     @Column(nullable = false)
     private TicketStatus status = TicketStatus.ABERTO;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "counter_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "service_desk_id", nullable = false)
     private Counter counter;
 
-    @Column(name = "created_at", nullable = false)
-    private LocalDateTime createdAt = LocalDateTime.now();
+    @Column(name = "opened_at", nullable = false)
+    private LocalDateTime openedAt = LocalDateTime.now();
 
     @Column(name = "resolved_at")
     private LocalDateTime resolvedAt;

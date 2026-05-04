@@ -5,6 +5,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import projetohelpdesk.demo.dto.TicketDetailResponse;
 import projetohelpdesk.demo.dto.TicketRequest;
 import projetohelpdesk.demo.entity.Counter;
 import projetohelpdesk.demo.entity.Ticket;
@@ -62,5 +64,30 @@ public class TicketService {
                 .filter(counter -> ticketRepository
                         .countByCounterIdAndStatusNot(counter.getId(), TicketStatus.CONCLUIDO) < MAX_ACTIVE_TICKETS_PER_COUNTER)
                 .findFirst();
+    }
+
+    public Page<Ticket> listAll(Pageable pageable){
+        return ticketRepository.findAll(pageable);
+    }
+
+    public TicketDetailResponse getDetail(Long id) {
+        Ticket ticket = ticketRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Chamado não encontrado: " + id));
+
+    
+        return TicketDetailResponse.builder()
+
+            .id(ticket.getId())
+            .reason(ticket.getReason())
+
+            .customerId(ticket.getCustomerId())
+            .customerName("Integração pendente")
+            .attendantName(ticket.getCounter().getAttendant())
+            .status(ticket.getStatus())
+
+            .createdAt(ticket.getOpenedAt())
+            .resolvedAt(ticket.getResolvedAt())
+
+            .build();
     }
 }

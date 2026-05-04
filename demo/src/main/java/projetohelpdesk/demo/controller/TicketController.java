@@ -9,6 +9,8 @@ package projetohelpdesk.demo.controller;
   import projetohelpdesk.demo.dto.TicketRequest;
   import projetohelpdesk.demo.entity.Ticket;                                                                                                                       
   import projetohelpdesk.demo.service.TicketService;
+  import projetohelpdesk.demo.dto.TicketDetailResponse;                                                                               
+  import org.springframework.data.domain.PageRequest;  
                                                                                                                                                                    
   @RestController 
   @RequestMapping("/tickets")
@@ -29,12 +31,19 @@ package projetohelpdesk.demo.controller;
       }
 
       @GetMapping("/{id}")                                                                                                                                         
-      public Ticket getById(@PathVariable Long id) {
-          return ticketService.getById(id);                                                                                                                        
+      public TicketDetailResponse getDetail(@PathVariable Long id) {
+          return ticketService.getDetail(id);                                                                                                                        
       }           
 
       @PatchMapping("/{id}/resolve")
       public Ticket resolve(@PathVariable Long id) {
           return ticketService.resolve(id);
-      }                                                                                                                                                            
+      }     
+      
+      @GetMapping
+      public Page<Ticket> listAll(
+                @RequestParam(defaultValue = "0") int page,
+                @RequestParam(defaultValue = "10") int size){
+            return ticketService.listAll(PageRequest.of(page,size));
+        }
   }
