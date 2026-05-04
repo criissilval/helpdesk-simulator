@@ -9,4 +9,6 @@ public class NoCounterAvailableException extends RuntimeException {
     public NoCounterAvailableException(String message) {
         super(message);
     }
+
+    // comentario para subida
 }
