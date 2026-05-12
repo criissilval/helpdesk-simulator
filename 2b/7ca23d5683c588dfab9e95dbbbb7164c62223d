@@ -1,0 +1,19 @@
+demo/src/main/java/projetohelpdesk/demo/job/TicketProcessingJob.java
+  s_20a755d50b04fb::t_1675a9d1efcb30 1-40
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "2b7ca23d5683c588dfab9e95dbbbb7164c62223d",
+  "prompts": {},
+  "sessions": {
+    "s_20a755d50b04fb": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "48f698b3-47c7-4aaf-87b6-bd483f49aadd",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Cristian <cristian.laurentino@mercadolivre.com>"
+    }
+  }
+}
