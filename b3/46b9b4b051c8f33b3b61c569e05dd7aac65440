@@ -1,0 +1,18 @@
+demo/src/main/java/projetohelpdesk/demo/job/TicketProcessingJob.java
+  h_9beb38123b0000 1-40
+demo/src/main/java/projetohelpdesk/demo/entity/WaitingQueue.java
+  h_9beb38123b0000 1-38
+demo/src/main/java/projetohelpdesk/demo/service/TicketService.java
+  h_9beb38123b0000 2,7-11,16-17,19-21,23-25,29,31,34-36,38-51,58-59,62,66,71,78-79,86,90,94
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "b346b9b4b051c8f33b3b61c569e05dd7aac65440",
+  "prompts": {},
+  "humans": {
+    "h_9beb38123b0000": {
+      "author": "Cristian <cristian.laurentino@mercadolivre.com>"
+    }
+  }
+}
