@@ -1,0 +1,36 @@
+demo/src/main/resources/application.properties
+  h_9beb38123b0000 36-38
+demo/src/main/java/projetohelpdesk/demo/dto/CustomerResponse.java
+  h_9beb38123b0000 1-10
+demo/src/main/java/projetohelpdesk/demo/service/TicketService.java
+  h_9beb38123b0000 21-22,42-46,48-49,51-52,56-58,61-75,83-85
+  s_5b7acbe39b5f84::t_e5908f74fa1352 34,36-38
+  s_5b7acbe39b5f84::t_2b12403768a2ce 117-121,124-126,128-129,131
+demo/src/main/java/projetohelpdesk/demo/client/DataVaultClient.java
+  h_9beb38123b0000 1-31
+demo/pom.xml
+  h_9beb38123b0000 80-84
+demo/src/main/java/projetohelpdesk/demo/repository/TicketRepository.java
+  h_9beb38123b0000 9,18-19
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "6cea7bde8a75d1aeeb2ab4ecdd467c5f23dfa7f2",
+  "prompts": {},
+  "humans": {
+    "h_9beb38123b0000": {
+      "author": "Cristian <cristian.laurentino@mercadolivre.com>"
+    }
+  },
+  "sessions": {
+    "s_5b7acbe39b5f84": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "4e017149-adfd-476d-8fc8-8919564c6475",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Cristian <cristian.laurentino@mercadolivre.com>"
+    }
+  }
+}
