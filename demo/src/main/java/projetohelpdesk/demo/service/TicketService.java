@@ -18,6 +18,8 @@ package projetohelpdesk.demo.service;
   import projetohelpdesk.demo.repository.CounterRepository;
   import projetohelpdesk.demo.repository.TicketRepository;                                                                                         
   import projetohelpdesk.demo.repository.WaitingQueueRepository;
+  import projetohelpdesk.demo.client.DataVaultClient;
+
                                                                                                                                                    
   import java.time.LocalDateTime;
   import java.util.List;                                                                                                                           
@@ -29,36 +31,58 @@ package projetohelpdesk.demo.service;
 
       private static final int MAX_ACTIVE_TICKETS_PER_COUNTER = 5;                                                                                 
    
-      private final TicketRepository ticketRepository;                                                                                             
+      private final TicketRepository ticketRepository;
       private final CounterRepository counterRepository;
-      private final WaitingQueueRepository waitingQueueRepository;                                                                                 
-   
-      @Transactional                                                                                                                               
-      public Ticket create(TicketRequest request) {
-          Optional<Counter> availableCounter = findAvailableCounter();
+      private final WaitingQueueRepository waitingQueueRepository;
+      private final DataVaultClient dataVaultClient;
+
+      @Transactional  
+  public Ticket create(TicketRequest request) {                                                                                                    
                                                                                                                                                    
-          if (availableCounter.isEmpty()) {
-              WaitingQueue waiting = new WaitingQueue();                                                                                           
-              waiting.setCustomerId(request.getCustomerId());
-              waiting.setDeviceId(request.getDeviceId());                                                                                          
-              waiting.setSerialNumber(request.getSerialNumber());
-              waiting.setReason(request.getReason());                                                                                              
-              waitingQueueRepository.save(waiting);
+      Optional<Ticket> existingTicket = ticketRepository
+          .findBySerialNumberAndStatusNot(request.getSerialNumber(), TicketStatus.CONCLUIDO);                                                      
+                  
+      if (existingTicket.isPresent()) {                                                                                                            
+          Ticket existing = existingTicket.get();
                                                                                                                                                    
-              throw new ResponseStatusException(HttpStatus.ACCEPTED,
-                  "Sem balcao disponivel. Chamado adicionado a fila de espera.");                                                                  
-          }                                                                                                                                        
-  
-          Ticket ticket = new Ticket();                                                                                                            
-          ticket.setCustomerId(request.getCustomerId());
-          ticket.setDeviceId(request.getDeviceId());
-          ticket.setSerialNumber(request.getSerialNumber());                                                                                       
-          ticket.setReason(request.getReason());
-          ticket.setStatus(TicketStatus.ABERTO);                                                                                                   
-          ticket.setCounter(availableCounter.get());
+          if (existing.getCustomerId().equals(request.getCustomerId())) {
+              String detailUrl = "/tickets/" + existing.getId();
+              throw new ResponseStatusException(                                                                                                   
+                  HttpStatus.CONFLICT,
+                  "Voce ja possui um chamado aberto para este serial. Detalhes: " + detailUrl                                                      
+              );                                                                                                                                   
+          }
                                                                                                                                                    
-          return ticketRepository.save(ticket);
+          throw new ResponseStatusException(
+              HttpStatus.FORBIDDEN,
+              "Este serial ja esta em atendimento por outro usuario."                                                                              
+          );
       }                                                                                                                                            
+                                                                                                                                                   
+      Optional<Counter> availableCounter = findAvailableCounter();
+                                                                                                                                                   
+      if (availableCounter.isEmpty()) {
+          WaitingQueue waiting = new WaitingQueue();
+          waiting.setCustomerId(request.getCustomerId());
+          waiting.setDeviceId(request.getDeviceId());
+          waiting.setSerialNumber(request.getSerialNumber());                                                                                      
+          waiting.setReason(request.getReason());
+          waitingQueueRepository.save(waiting);                                                                                                    
+                  
+          throw new ResponseStatusException(HttpStatus.ACCEPTED,                                                                                   
+              "Sem balcao disponivel. Chamado adicionado a fila de espera.");
+      }                                                                                                                                            
+                  
+      Ticket ticket = new Ticket();
+      ticket.setCustomerId(request.getCustomerId());
+      ticket.setDeviceId(request.getDeviceId());
+      ticket.setSerialNumber(request.getSerialNumber());                                                                                           
+      ticket.setReason(request.getReason());
+      ticket.setStatus(TicketStatus.ABERTO);                                                                                                       
+      ticket.setCounter(availableCounter.get());
+                                                                                                                                                   
+      return ticketRepository.save(ticket);
+  }                                                                                                                                            
                   
       public Page<Ticket> getByCustomer(String customerId, Pageable pageable) {                                                                    
           return ticketRepository.findByCustomerId(customerId, pageable);
@@ -90,17 +114,19 @@ package projetohelpdesk.demo.service;
                   
       public TicketDetailResponse getDetail(Long id) {
           Ticket ticket = ticketRepository.findById(id)
-              .orElseThrow(() -> new EntityNotFoundException("Chamado não encontrado: " + id));                                                    
-  
-          return TicketDetailResponse.builder()                                                                                                    
+              .orElseThrow(() -> new EntityNotFoundException("Chamado não encontrado: " + id));
+
+          String customerName = dataVaultClient.getCustomerName(ticket.getCustomerId());
+
+          return TicketDetailResponse.builder()
               .id(ticket.getId())
               .reason(ticket.getReason())
-              .customerId(ticket.getCustomerId())                                                                                                  
-              .customerName("Integração pendente")
-              .attendantName(ticket.getCounter().getAttendant())                                                                                   
+              .customerId(ticket.getCustomerId())
+              .customerName(customerName)
+              .attendantName(ticket.getCounter().getAttendant())
               .status(ticket.getStatus())
-              .createdAt(ticket.getOpenedAt())                                                                                                     
-              .resolvedAt(ticket.getResolvedAt())                                                                                                  
+              .createdAt(ticket.getOpenedAt())
+              .resolvedAt(ticket.getResolvedAt())
               .build();
-      }                                                                                                                                            
+      }
   }       
