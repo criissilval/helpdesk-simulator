@@ -1,0 +1,26 @@
+demo/src/main/resources/application.properties
+  s_558a230afd1dff::t_6229ba0bea7a0d 37-38
+demo/src/main/java/projetohelpdesk/demo/service/TicketService.java
+  h_9beb38123b0000 39
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.9",
+  "base_commit_sha": "ddedfbb4be70b87cde194ef281ca3c3cec38d2f3",
+  "prompts": {},
+  "humans": {
+    "h_9beb38123b0000": {
+      "author": "Cristian <cristian.laurentino@mercadolivre.com>"
+    }
+  },
+  "sessions": {
+    "s_558a230afd1dff": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "b44e25d3-fc3c-41b9-958a-44b2d5d08258",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Cristian <cristian.laurentino@mercadolivre.com>"
+    }
+  }
+}
