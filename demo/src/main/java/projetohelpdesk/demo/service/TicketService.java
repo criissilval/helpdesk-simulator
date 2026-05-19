@@ -36,7 +36,7 @@ package projetohelpdesk.demo.service;
       private final WaitingQueueRepository waitingQueueRepository;
       private final DataVaultClient dataVaultClient;
 
-      @Transactional  
+  @Transactional(noRollbackFor = ResponseStatusException.class)  
   public Ticket create(TicketRequest request) {                                                                                                    
                                                                                                                                                    
       Optional<Ticket> existingTicket = ticketRepository
