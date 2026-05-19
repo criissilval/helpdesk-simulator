@@ -5,7 +5,8 @@ package projetohelpdesk.demo.repository;
   import org.springframework.data.jpa.repository.JpaRepository;                                                                                                    
   import projetohelpdesk.demo.entity.Ticket;
   import projetohelpdesk.demo.enums.TicketStatus;      
-  import java.util.List;                                                                                                          
+  import java.util.List;               
+  import java.util.Optional;                                                                                           
                                                                                                                                                                    
   public interface TicketRepository extends JpaRepository<Ticket, Long> {
                                                                                                                                                                    
@@ -14,4 +15,6 @@ package projetohelpdesk.demo.repository;
       Page<Ticket> findByCustomerId(String customerId, Pageable pageable);     
       
       List<Ticket> findByStatus(TicketStatus status);
+
+      Optional<Ticket> findBySerialNumberAndStatusNot(String serialNumber, TicketStatus status);  
   }
